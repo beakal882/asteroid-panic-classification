@@ -36,24 +36,6 @@ The notebook loads the CSV file:
 
 /kaggle/input/nasa-asteroid-impact-dataset/asteroid_dataset_20251019.csv
 
-Requirements
-
-Python: 3.12+
-
-Libraries: pandas, numpy, scikit-learn, matplotlib
-
-Install dependencies using:
-
-pip install pandas numpy scikit-learn matplotlib
-
-Usage
-1. Clone the repository:
-git clone https://github.com/beakal882/asteroid-panic-level-classification.git
-
-2. Open the notebook:
-jupyter notebook asteroid-panic-level-classification.ipynb
-
-3. Run the cells sequentially to load data, train models, and view results.
 
 Notes
 
@@ -63,7 +45,7 @@ Binary classification threshold: Panic level ≥ 4 → high panic (1), else low 
 
 Model performance:
 
-Random Forest generally outperforms Logistic Regression but may overfit
+Random Forest generally outperforms Logistic Regression
 
 Hyperparameters tuned: max_depth=20, min_samples_leaf=35
 
