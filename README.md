@@ -1,52 +1,85 @@
-Asteroid Panic Level Classification
-This repository contains a Jupyter Notebook that builds a binary classification machine learning model to predict whether an approaching asteroid would cause “high panic” (panic level ≥ 4) or “low panic”, based on a publicly available asteroid dataset from Kaggle.
-Overview
-The notebook processes asteroid data, performs data cleaning, feature engineering, and trains two models:
--Logistic Regression
--Random Forest Classifier
-The goal is to classify asteroids into binary panic categories derived from the original panic_level column.
-Key steps include:
-Loading and exploring the dataset
+# Will This Asteroid Panic Us? A Classification Story
 
-Handling missing values (e.g., filling NaNs in Sentry-related fields with defaults like 0 or -10)
+*By Beakale Amenu Tefera*
 
-Creating a binary target variable (panic_binary)
+---
 
-Feature selection (distance, velocity, magnitude, Sentry metrics, etc.)
+## The Question
 
-Data splitting, scaling, and model training
+Thousands of asteroids pass by Earth every year.
+Most go unnoticed. Some make headlines.
 
-Evaluation using accuracy, precision, recall, F1-score, and confusion matrix
+But what actually determines whether an approaching 
+asteroid causes public panic — or gets ignored?
 
-Feature importance analysis for the Random Forest model
+That question is what started this project.
 
-Dataset
+---
 
-The dataset is from Kaggle: NASA Asteroid Impact Dataset. It includes features such as:
+## What I Built
 
-Asteroid designation and full name
+A binary classification model that predicts whether 
+an approaching asteroid would trigger **high panic** 
+or **low panic**, using a publicly available NASA 
+asteroid dataset from Kaggle.
 
-Close approach date, distance (AU), velocity (km/s), absolute magnitude
+Two models were trained and compared:
 
-Risk metrics (e.g., Sentry impact probability, Palermo scale)
+| Model | Accuracy |
+|---|---|
+| Logistic Regression | 77.8% |
+| Random Forest | 97.7% |
 
-Derived columns like panic_level, threat_category, and panic_verdict
+---
 
-The notebook loads the CSV file:
+## The Twist
 
-/kaggle/input/nasa-asteroid-impact-dataset/asteroid_dataset_20251019.csv
+The 97.7% felt too good.
 
+So I investigated.
 
-Notes
+A correlation analysis revealed **structural target leakage** — 
+the features used to train the model shared a common origin 
+with the engineered target variable. `distance_au` was acting 
+as a proxy for `risk_score`, which was used to build the labels 
+in the first place.
 
-The dataset spans from 2020 to 2100, including both past and predicted future events.
+The Random Forest had partially learned the formula 
+behind the labels, not genuine patterns in the data.
 
-Binary classification threshold: Panic level ≥ 4 → high panic (1), else low panic (0)
+**The honest number is 77.8%.**
 
-Model performance:
+This was a beginner's mistake — and catching it was 
+the most important lesson of the project.
 
-Random Forest generally outperforms Logistic Regression
+---
 
-Hyperparameters tuned: max_depth=20, min_samples_leaf=35
+## What I Learned
 
-Visualizations include a target balance bar plot
+- How to build an end-to-end classification pipeline
+- The difference between accuracy and honest accuracy
+- What target leakage looks like in practice
+- That questioning your own results matters more 
+  than celebrating them
+
+---
+
+## Dataset
+
+NASA Asteroid Impact Dataset — Kaggle  
+89,227 asteroid close approach records (2020–2100)
+
+---
+
+## How to Run
+
+```bash
+pip install -r requirements.txt
+jupyter notebook notebook/asteroid-panic-level-classification.ipynb
+```
+
+---
+
+## Tech Stack
+
+Python · pandas · scikit-learn · matplotlib · seaborn
